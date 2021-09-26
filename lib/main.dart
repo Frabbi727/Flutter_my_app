@@ -1,36 +1,53 @@
-
 import 'package:flutter/material.dart';
 
+import './question.dart';
+import './answer.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() =>
+      _MyAppState(); //making it public class using this "_" it can not be access form anywhere else this
+}
 
-  void answerQuestion (){
-    print('Answer chosen.');
+class _MyAppState extends State<MyApp> {
+  var questionIndex = 0;
+
+  void _answerQuestion() {
+    setState(() {
+      questionIndex = questionIndex + 1;
+    });
+
+    print(questionIndex);
   }
-  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    var questions=[ 'What\'s your favourite Colour ?', 
-                    'What\'s your favourite animal ?'];
-    return  MaterialApp(
-     home:  Scaffold(
-      appBar: AppBar(title: const Text('My App'),
-      ),
-
-      body:  Column(children:  <Widget>  [
-        const Text('The questions !'),
-        ElevatedButton (child: Text('Answer 1'), onPressed: answerQuestion ),
-        ElevatedButton (child: Text('Answer 2'), onPressed: answerQuestion),
-        ElevatedButton (child: Text('Answer 3'), onPressed: answerQuestion),
-
-      ],
-      )
-    ),
-    
+    var questions = [
+      'What\'s your favourite Colour ?',
+      'What\'s your favourite animal ?',
+      'What\'s on your mind ?',
+      'What is your name?',
+    ];
+    return MaterialApp(
+      home: Scaffold(
+          appBar: AppBar(
+            title: Text('My App'), 
+          ),
+          body: Column(
+            children: <Widget>[
+              Question(questions[questionIndex]),
+              Answer(_answerQuestion),
+              Answer(_answerQuestion),
+              Answer(_answerQuestion),
+              
+              
+            ],
+          )),
     );
   }
 }
-//video start from 20th next day
+ // start from 31
