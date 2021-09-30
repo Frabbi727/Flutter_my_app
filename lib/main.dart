@@ -14,40 +14,57 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var questionIndex = 0;
+  var _questionIndex = 0;
+
+  final questions = const [
+    {
+      'questionText': 'What\'s your favourite Colour ?',
+      'answers': ['red', 'green', 'yellow', 'white']
+    },
+    {
+      'questionText': 'What\'s your favourite animal ?',
+      'answers': ['cow', 'goat', 'crow', 'lion']
+    },
+    {
+      'questionText': 'Who is your favourite',
+      'answers': ['Ronto', 'rabbi', 'dolon']
+    },
+  ];
 
   void _answerQuestion() {
     setState(() {
-      questionIndex = questionIndex + 1;
+      _questionIndex = _questionIndex + 1;
     });
+    if (_questionIndex < questions.length) {
+      print('We have more Questions');
+    }
 
-    print(questionIndex);
+    print(_questionIndex);
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'What\'s your favourite Colour ?',
-      'What\'s your favourite animal ?',
-      'What\'s on your mind ?',
-      'What is your name?',
-    ];
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('My App'), 
-          ),
-          body: Column(
-            children: <Widget>[
-              Question(questions[questionIndex]),
-              Answer(_answerQuestion),
-              Answer(_answerQuestion),
-              Answer(_answerQuestion),
-              
-              
-            ],
-          )),
+        appBar: AppBar(
+          title: Text('My App'),
+        ),
+        body: _questionIndex < questions.length
+            ? Column(
+                children: <Widget>[
+                  Question(
+                      questions[_questionIndex]['questionText']?.toString() ?? ''),
+                  ...(questions[_questionIndex]['answers'] as List<String>)
+                      .map((answer) {
+                    return Answer(_answerQuestion, answer);
+                  }).toList()
+                ],
+              )
+            : Center(
+                child: Text('You did It'),
+              ),
+      ),
     );
   }
 }
- // start from 31
+ // start from 39
